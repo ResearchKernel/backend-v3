@@ -4,6 +4,12 @@ const mongo = require("mongoose");
 const userSchema = require("./user");
 const User = mongo.model('User', userSchema);
 
+// Userprofile Schema
+
+const UserprofileSchema = require('./userprofile')
+const Userprofile = mongo.model('userprofile', UserprofileSchema);
+
 module.exports = {
-    User
+    User,
+    Userprofile
 };

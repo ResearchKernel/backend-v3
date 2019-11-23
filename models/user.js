@@ -1,89 +1,99 @@
+/**
+ * user model maintain the schema for authentication as well as for bifurcating the user types.
+ */
 const mongo = require("mongoose");
 const bcrypt = require("bcrypt"),
-  SALT_WORK_FACTOR = require("../config")["salt_work_factor"];
+    SALT_WORK_FACTOR = require("../config")["salt_work_factor"];
 const Schema = mongo.Schema;
 const mongoosePaginate = require("mongoose-paginate-v2");
 
-const UserSchema = new Schema(
-  {
+const UserSchema = new Schema({
+    userType: {
+        type: String,
+        enum: ['student', 'professional', 'researcher', 'organisation'],
+        default: 'student',
+        required: "User Type is required",
+    },
     fullName: {
-      type: String,
-      trim: true,
-      required: "Full Name is required",
-      match: [/^[a-zA-Z ]*$/, "Invalid full name"]
+        type: String,
+        trim: true,
+        required: "Full Name is required",
+        match: [/^[a-zA-Z ]*$/, "Invalid full name"]
     },
     email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-      unique: "Email already exists",
-      required: "Email address is required",
-      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Invalid email"],
-      index: true
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: "Email already exists",
+        required: "Email address is required",
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Invalid email"],
+        index: true
     },
     password: {
-      type: String,
-      required: "Password is required",
-      match: [
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,10}$/,
-        "Invalid password"
-      ]
+        type: String,
+        required: "Password is required",
+        match: [
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,10}$/,
+            "Invalid password"
+        ]
+    },
+    userProfile: {
+        type: Schema.Types.ObjectId,
+        ref: 'userprofile'
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date
-  },
-  {
+}, {
     timestamps: true
-  }
-);
+});
 
 /**
  * toJSON implementation
  */
 UserSchema.options.toJSON = {
-  transform: function(doc, ret, options) {
-    // ret.id = ret._id;
-    // delete ret._id;
-    delete ret.__v;
-    return ret;
-  }
+    transform: function(doc, ret, options) {
+        // ret.id = ret._id;
+        // delete ret._id;
+        delete ret.__v;
+        return ret;
+    }
 };
 
 UserSchema.pre("save", function(next) {
-  var user = this;
+    var user = this;
 
-  // only hash the password if it has been modified (or is new)
-  if (!user.isModified("password")) return next();
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified("password")) return next();
 
-  // generate a salt
-  bcrypt.genSalt(parseInt(SALT_WORK_FACTOR), function(err, salt) {
-    if (err) return next(err);
+    // generate a salt
+    bcrypt.genSalt(parseInt(SALT_WORK_FACTOR), function(err, salt) {
+        if (err) return next(err);
 
-    // hash the password along with our new salt
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
+        // hash the password along with our new salt
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) return next(err);
 
-      // override the cleartext password with the hashed one
-      user.password = hash;
-      next();
+            // override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
     });
-  });
 });
 
 UserSchema.methods.createHash = function(value) {
-  return new Promise((resolve, reject) => {
-    bcrypt.genSalt(parseInt(SALT_WORK_FACTOR), function(err, salt) {
-      if (err) return reject(err);
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(parseInt(SALT_WORK_FACTOR), function(err, salt) {
+            if (err) return reject(err);
 
-      // hash the password along with our new salt
-      bcrypt.hash(value, salt, function(err, hash) {
-        if (err) return reject(err);
+            // hash the password along with our new salt
+            bcrypt.hash(value, salt, function(err, hash) {
+                if (err) return reject(err);
 
-        // override the cleartext password with the hashed one
-        return resolve(hash);
-      });
+                // override the cleartext password with the hashed one
+                return resolve(hash);
+            });
+        });
     });
-  });
 };
 
 UserSchema.plugin(mongoosePaginate);

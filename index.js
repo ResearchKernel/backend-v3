@@ -31,9 +31,9 @@ const app = express();
 app.use(cors());
 
 app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
+    bodyParser.urlencoded({
+        extended: false
+    })
 );
 
 app.use(bodyParser.json());
@@ -74,45 +74,53 @@ const mongo = require("./mongo");
 // });
 
 app.get("/", (req, res, next) => {
-  res.send({
-    code: 200,
-    message: "Faad chal rha hai."
-  });
+    res.send({
+        code: 200,
+        message: "Faad chal rha hai."
+    });
 });
 app.use(
-  "/api/v1",
-  require("./routes/user")({
-    client,
-    db: mongo,
-    logger
-  })
+    "/api/v1",
+    require("./routes/user")({
+        client,
+        db: mongo,
+        logger
+    })
 );
 
 app.use(
-  "/api/v1/auth",
-  require("./routes/auth")({
-    client,
-    db: mongo,
-    logger
-  })
+    "/api/v1/auth",
+    require("./routes/auth")({
+        client,
+        db: mongo,
+        logger
+    })
+);
+app.use(
+    "/api/v1/auth",
+    require("./routes/papers")({
+        client,
+        db: mongo,
+        logger
+    })
 );
 
 /**
  * Error handlers & middlewares
  */
 app.use((err, req, res, next) => {
-  logger.error(`[${req.method}][${req.url}] - ${JSON.stringify(err)}`);
-  res.status(err.status || 500).json({
-    error: {
-      message: err.message,
-      stack: isProduction ? {} : err
-    }
-  });
+    logger.error(`[${req.method}][${req.url}] - ${JSON.stringify(err)}`);
+    res.status(err.status || 500).json({
+        error: {
+            message: err.message,
+            stack: isProduction ? {} : err
+        }
+    });
 });
 
 /**
  * Server
  */
 app.listen(config["port"], () => {
-  console.log(`Server listening on port: ${config["port"]}`);
+    console.log(`Server listening on port: ${config["port"]}`);
 });
