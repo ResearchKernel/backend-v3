@@ -22,7 +22,7 @@ module.exports = ({ client, db, logger }) => {
         .post((req, res, next) => researchpapersController.share(req, res, next, { logger, client, db }))
     router
         .route("/bulk-import")
-        .post((req, res, next) => researchpapersController.bulk_import(req, res, next, { logger, client, db }))
+        .post((req, res, next) => researchpapersController.bulkImport(req, res, next, { logger, client, db }))
         .get((req, res, next) => researchpapersController.getPaper(req, res, next, { logger, client, db }))
     return router
 }
