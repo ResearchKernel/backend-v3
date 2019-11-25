@@ -42,6 +42,7 @@ const ResearchpaperSchema = new Schema({
     comments: [{
         comments: { type: String },
         user: [{ type: Schema.Types.ObjectId, ref: 'userprofile' }]
+        timestamp: Date
     }],
     //  shared count
     shares: { type: Number, default: 0 },
@@ -52,6 +53,8 @@ const ResearchpaperSchema = new Schema({
     }],
     views: { type: Number, default: 0 },
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'userprofile' }]
+}, {
+    timestamps: true
 });
 const Researchpaper = mongo.model('researchpaper', ResearchpaperSchema);
 
