@@ -19,6 +19,7 @@ const UserprofileSchema = new Schema({
     four: [{ type: Schema.Types.ObjectId, ref: 'researchpaper' }],
     // emotion 5
     five: [{ type: Schema.Types.ObjectId, ref: 'researchpaper' }],
+    sharedPapers: [{ type: Schema.Types.ObjectId, ref: 'researchpaper' }],
     profileImage: { url: String },
     location: { type: String },
     recommendations: [{ type: String, ref: 'researchpaper' }],
