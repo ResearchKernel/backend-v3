@@ -53,7 +53,7 @@ const ResearchpaperSchema = new Schema({
     views: { type: Number, default: 0 },
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'userprofile' }]
 });
-const Researchpaper = mongo.model('researchpaper', alphaMasterSchema);
+const Researchpaper = mongo.model('researchpaper', ResearchpaperSchema);
 
 
 module.exports = Researchpaper;
