@@ -97,7 +97,7 @@ app.use(
     })
 );
 app.use(
-    "/api/v1/auth",
+    "/api/v1/",
     require("./routes/papers")({
         client,
         db: mongo,

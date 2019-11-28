@@ -124,8 +124,8 @@ module.exports = () => {
         try {
             const paylaod = req.body;
             const response = await researchpapersService.bulkImport(paylaod, logger, db)
-            if (!response) {
-                res.status(200).send({ status: 201, message: "TADA" })
+            if (response) {
+                res.status(200).send({ status: 201, message: response })
             } else {
                 res.status(200).send({ status: 400, message: "TADA" })
             }
@@ -134,11 +134,40 @@ module.exports = () => {
         }
     }
     const getPaper = async(req, res, next, { logger, db, client }) => {
+            try {
+                const paylaod = req.query;
+                const response = await researchpapersService.getPaper(paylaod, logger, db)
+                if (response) {
+                    res.status(200).send({ status: 201, message: response })
+                } else {
+                    res.status(200).send({ status: 400, message: "TADA" })
+                }
+            } catch (error) {
+                next(error)
+            }
+        }
+        /**
+         * Views APIs
+         */
+    const postView = async(req, res, next, { logger, db, client }) => {
         try {
-            const paylaod = req.body;
-            const response = await researchpapersService.getPaper(paylaod, logger, db)
-            if (!response) {
-                res.status(200).send({ status: 201, message: "TADA" })
+            const paylaod = req.query;
+            const response = await researchpapersService.postView(paylaod, logger, db)
+            if (response) {
+                res.status(200).send({ status: 201, message: response })
+            } else {
+                res.status(200).send({ status: 400, message: "TADA" })
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+    const getView = async(req, res, next, { logger, db, client }) => {
+        try {
+            const paylaod = req.query;
+            const response = await researchpapersService.getView(paylaod, logger, db)
+            if (response) {
+                res.status(200).send({ status: 201, message: response })
             } else {
                 res.status(200).send({ status: 400, message: "TADA" })
             }
@@ -156,6 +185,8 @@ module.exports = () => {
         deleteComment,
         share,
         bulkImport,
-        getPaper
+        getPaper,
+        postView,
+        getView
     }
 };

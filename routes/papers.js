@@ -24,5 +24,10 @@ module.exports = ({ client, db, logger }) => {
         .route("/bulk-import")
         .post((req, res, next) => researchpapersController.bulkImport(req, res, next, { logger, client, db }))
         .get((req, res, next) => researchpapersController.getPaper(req, res, next, { logger, client, db }))
+    router
+        .route("/view")
+        .post((req, res, next) => researchpapersController.postView(req, res, next, { logger, client, db }))
+        .get((req, res, next) => researchpapersController.getView(req, res, next, { logger, client, db }))
+
     return router
 }
