@@ -151,7 +151,7 @@ module.exports = () => {
          */
     const postView = async(req, res, next, { logger, db, client }) => {
         try {
-            const paylaod = req.query;
+            const paylaod = req.body;
             const response = await researchpapersService.postView(paylaod, logger, db)
             if (response) {
                 res.status(200).send({ status: 201, message: response })

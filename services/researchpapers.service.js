@@ -30,9 +30,9 @@ module.exports = () => {
     const postView = (payload, logger, db) => new Promise(async(resolve, reject) => {
         try {
             const { _id } = payload
-            Researchpaper.update({ _id: _id }, { $inc: { "views": 1 } }, { new: true })
-            resolve("Added View count to the paper")
-
+            const paper = Researchpaper.update({ _id: _id }, { $inc: { "views": 1 } }, { new: true })
+                // resolve("Added View count to the paper")
+            resolve(paper)
         } catch (error) {
             reject(error)
         }
@@ -40,7 +40,7 @@ module.exports = () => {
     const getView = (payload, logger, db) => new Promise(async(resolve, reject) => {
         try {
             const { _id } = payload
-            const paper = Researchpaper.find({ _id })
+            const paper = Researchpaper.find({ _id }, { views: 1, _id: 0 })
             resolve(paper)
         } catch (error) {
             reject(error)
