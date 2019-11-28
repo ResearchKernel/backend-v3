@@ -7,8 +7,8 @@ module.exports = () => {
         try {
             const paylaod = req.body;
             const response = await researchpapersService.likePapers(paylaod, logger, db)
-            if (!response) {
-                res.status(200).send({ status: 201, message: "TADA" })
+            if (response) {
+                res.status(200).send({ status: 201, message: response })
             } else {
                 res.status(200).send({ status: 400, message: "TADA" })
             }

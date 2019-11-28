@@ -1,6 +1,6 @@
 const Researchpaper = require('../models/researchpapers')
 module.exports = () => {
-    const like = (payload, logger, db) => new Promise(async(resolve, reject) => {
+    const likePapers = (payload, logger, db) => new Promise(async(resolve, reject) => {
         try {
             resolve(payload)
         } catch (error) {
@@ -47,7 +47,7 @@ module.exports = () => {
         }
     })
     return {
-        like,
+        likePapers,
         bulkImport,
         getPaper,
         postView,
