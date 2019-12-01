@@ -32,10 +32,10 @@ module.exports = () => {
         /**
          * Dislike APIs
          */
-    const dislike = async(req, res, next, { logger, db, client }) => {
+    const dislikePapers = async(req, res, next, { logger, db, client }) => {
         try {
             const paylaod = req.body;
-            const response = await researchpapersService.dislike(paylaod, logger, db)
+            const response = await researchpapersService.dislikePapers(paylaod, logger, db)
             if (!response) {
                 res.status(200).send({ status: 201, message: "TADA" })
             } else {
@@ -178,7 +178,7 @@ module.exports = () => {
     return {
         likePapers,
         deleteLikePapers,
-        dislike,
+        dislikePapers,
         deleteDislike,
         comment,
         getComment,

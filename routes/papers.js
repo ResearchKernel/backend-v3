@@ -10,7 +10,7 @@ module.exports = ({ client, db, logger }) => {
         .delete((req, res, next) => researchpapersController.deleteLikePapers(req, res, next, { logger, client, db }))
     router
         .route("/dislike")
-        .post((req, res, next) => researchpapersController.dislike(req, res, next, { logger, client, db }))
+        .post((req, res, next) => researchpapersController.dislikePapers(req, res, next, { logger, client, db }))
         .delete((req, res, next) => researchpapersController.deleteDislike(req, res, next, { logger, client, db }))
     router
         .route("/comment")

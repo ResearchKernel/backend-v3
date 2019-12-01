@@ -54,6 +54,15 @@ const ResearchpaperSchema = new Schema({
     views: { type: Number, default: 0 },
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'userprofile' }]
 });
+
+ResearchpaperSchema.options.toJSON = {
+    transform: function(doc, ret, options) {
+        // ret.id = ret._id;
+        // delete ret._id;
+        delete ret.__v;
+        return ret;
+    }
+};
 const Researchpaper = mongo.model('researchpaper', ResearchpaperSchema);
 
 
