@@ -56,12 +56,12 @@ module.exports = () => {
                 researchpaper.dislikedBy.push(user_id)
                 await researchpaper.save()
                     // add paper to likedPapers
-                user.likedPapers.push(payload.paper_id)
+                user.dislikedPapers.push(payload.paper_id)
                 await user.save()
                 resolve("Paper Disliked !")
             } else {
-                researchpaper.likes++;
-                researchpaper.likedBy.push(user_id)
+                researchpaper.dislikes++;
+                researchpaper.dislikedBy.push(user_id)
                 await researchpaper.save()
                 resolve("Paper Disliked !")
             }
