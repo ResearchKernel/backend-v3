@@ -7,7 +7,7 @@ module.exports = () => {
     const getUserProfile = (payload, logger, db) => new Promise(async(resolve, reject) => {
             try {
                 const { id } = payload
-                const response = await Userprofile.findById(id).populate('User')
+                const response = await Userprofile.findById(id).populate('user_id', ['userType', 'fullName'])
                 resolve(response)
             } catch (error) {
                 reject(error)
