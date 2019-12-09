@@ -22,7 +22,6 @@ const UserprofileSchema = new Schema({
     sharedPapers: [{ type: Schema.Types.ObjectId, ref: 'researchpaper' }],
     profileImage: { url: String },
     location: { type: String },
-    recommendations: [{ type: String, ref: 'researchpaper' }],
     organisation: { type: String },
 });
 /**
